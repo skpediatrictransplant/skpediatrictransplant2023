@@ -1,0 +1,334 @@
+---
+title: "~/phd-projects/skpediatrictransplant2023_markdown"
+output: pdf_document
+date: '2023-05-24'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+This script reproduces the general results from the manuscript using a subset of the data for faster runtimes.
+The source script contains the packages the user would have to install to run this script. 
+A markdown file is provided as well.
+```{r}
+knitr::opts_knit$set(root.dir = "~/phd-projects")
+source('~/phd-projects/skpediatrictransplant2023/scripts/skpediatrictransplant2023-functions.R')
+```
+
+```{r}
+
+## data
+md = read.csv("skpediatrictransplant2023/data/sample_metadata.txt",sep="\t",  stringsAsFactors = FALSE, check.names = FALSE) %>%
+     mutate(sample = as.character(sample))
+
+
+## this is subsetted dataset sampled to represent every cell type in each subject. 
+## thus is not an accurate representation of the data and only serves as a subsetted template for example code used to go from single-cell data to proportions
+df = readRDS('skpediatrictransplant2023/data/sc_data_subset.rds')
+
+```
+
+
+```{r}
+
+## calculate proportions per sample 
+df_subset_proportions = df %>%
+     group_by(celltype, sample) %>%
+     summarize(count = n()) %>%
+     group_by(sample) %>%
+     mutate(percentage = count/sum(count)*100) 
+
+## calculate proportions per sample  in each lineage
+df_subset_proportions = df %>%
+     group_by(sample, lineage, celltype) %>%
+     summarize(count = n()) %>%
+     group_by(sample, lineage) %>%
+     mutate(proportion = count/sum(count)*100) %>%
+     ungroup() 
+
+
+## proportions per sample in each lineage, these are manual gating results
+data.input_prop =  readRDS( 'skpediatrictransplant2023/data/celltype_proportions.rds')
+
+```
+
+```{r}
+
+## join metadata 
+data.input_prop = data.input_prop %>%
+     left_join(md %>% dplyr::select(sample, Graft, Graft_Health)) 
+
+## filter to keep only relevant samples
+data.input_prop_filt = data.input_prop %>%
+     dplyr::filter(Graft %in% c('Heart','Liver','Kidney','Intestine'), Graft_Health %in% c("Stable","Rejection")) 
+
+
+## terminal gated populations only
+celltypes_relevant = c('CD4 CM','CD4 effector','CD4 EM','CD4 naive','CD45RA- Tregs','CD45RA+ Tregs','CD56bright CD16- NK cells','CD56bright CD16dim NK cells','CD56dim CD16- NK cells','CD56dim CD16bright NK cells','CD56dim CD16dim NK cells','CD8 CM','CD8 effector','CD8 EM','CD8 naive','classical monos','dendritic cells','gd T cells','int monos','memory B cells','naive B cells','non-classical monos','plasmablasts','CD:45RA-25+5+38-')
+
+```
+
+```{r}
+
+## summary heatmap
+hm.input = data.input_prop_filt %>%
+     dplyr::filter(Graft != 'Intestine') %>% ## remove intestine since there are few samples, as done in the manuscript
+     mutate_at(celltypes_relevant, scale) %>%
+     group_by(Graft, Graft_Health)%>%
+     summarize_at(celltypes_relevant, median)%>%
+     ungroup() %>%
+     mutate(group = paste(Graft, Graft_Health, sep =': '))
+
+## shunt values to  minimize impact of celltypes with large standard deviations to clarify color gradient
+hm.input = lapply(hm.input, function(col){if (is.numeric(col)){
+     return(ifelse(abs(col)>= 0.75, 0.75*sign(col), col))
+} else {
+     return(col)
+}
+}) %>% bind_cols()
+pheatmap::pheatmap(hm.input %>% dplyr::select(-Graft,-Graft_Health) %>% column_to_rownames('group'))
+
+```
+
+```{r}
+
+train.x = data.input_prop_filt %>% dplyr::select(all_of(celltypes_relevant)) 
+## perform PCA
+pca.results = pca_function(data.input_prop_filt, celltypes_relevant)
+ggplot(pca.results, aes(x = PC1, y = PC2, color = Graft)) + geom_point()
+
+```
+
+```{r}
+
+## perform permanova analysis
+# library(vegan)
+dist.res<-vegan::vegdist(pca.results %>% dplyr::select(all_of(paste0('PC',1:10))), method='euclidean')
+mds.res = cmdscale(dist.res)
+adonis.res<- vegan::adonis2(dist.res~ Graft  + Graft_Health , data=pca.results, permutations = 999, method="euclidean")
+adonis.res
+```
+
+```{r}
+
+## perform LDA
+## Graft type
+train.y = data.input_prop_filt$Graft
+lda.results = lda_function(data.input_prop_filt,train.x,train.y)
+ggplot(lda.results$lda.df, aes(x = LD1, y = LD2, color = Graft)) + geom_point()
+
+```
+
+```{r}
+
+## Graft Health
+train.y = data.input_prop_filt$Graft_Health
+lda.results = lda_function(data.input_prop_filt,train.x,train.y)
+ggplot(lda.results$lda.df, aes(x = LD1, color = Graft_Health)) + geom_density()
+
+```
+```{r}
+
+## perform glm
+## without graft as a covariate, CD:45RA-25+5+38 not sigificant
+glm.input = data.input_prop_filt %>%
+     mutate(Graft_Health = factor(Graft_Health, levels = c('Rejection','Stable')) )
+glm.res = glm(Graft_Health ~`CD:45RA-25+5+38-`, family = 'binomial', data = glm.input)
+summary(glm.res)
+
+## with graft as a covariate, CD:45RA-25+5+38  significant
+glm.res = glm(Graft_Health ~ Graft + `CD:45RA-25+5+38-`, family = 'binomial', data = glm.input)
+summary(glm.res)
+confint(glm.res)
+
+```
+
+
+```{r}
+
+
+
+################################################################
+## Unsupervised clsutering: Flowsom on subsetted example data ##
+################################################################
+## flowsom was done in 2 iterations: first to identify the  myeloid and lymphoid lineages, then to identify the terminal celltpyes within each lineage
+## because flowsom is non-deterministic, we show example code below but do not actually label the lineages since cluster #s do not annotates the same cell when flowsom is rerun
+lineage_markers = c('CD3','CD19','CD4','CD8','CD56','CD14','CD16')
+library(FlowSOM)
+flowsom.input = df %>% dplyr::select(all_of(lineage_markers))  %>% as.matrix()
+fSOM <- FlowSOM(flowsom.input ,
+                # Input options:
+                compensate = FALSE,
+                transform = FALSE,
+                scale = FALSE,
+                nClus = 12,
+                xdim = 10, ydim = 10,
+)
+fSOM_clusters <- GetMetaclusters(fSOM)
+df$flowsom_general = fSOM_clusters
+
+###  annotate your populations. We use the existing lineage annotations for this example code
+myeloid_markers = c('CD56', 'CD16', 'CD14','CD11c')
+lymphocyte_markers = c('CD19', 'CD20', 'CD27', 'CD38', 'CD4','CD8', 'CD25', 'CD5', 'CD45RA', 'FoxP3', 'CCR7',  'TCRgd')
+
+## after your annotation, perform flowsom on 2 separate lineage subsets. 
+## we use the existing lineage annotations for this example code
+df_flowsom_monocyte_NK = df %>% dplyr::filter(lineage %in% c('monocyte lineage','NK-cell')) ## just for example
+df_flowsom_TcellBcell = df %>% dplyr::filter(lineage %in% c('T-cell','B-cell')) ## just for example
+
+df_flowsom_inputs = list(df_flowsom_monocyte_NK = df_flowsom_monocyte_NK, df_flowsom_TcellBcell = df_flowsom_TcellBcell)
+fs.results = lapply(names(df_flowsom_inputs), function(fs){
+     if(fs == 'df_flowsom_monocyte_NK') {
+          channels = myeloid_markers 
+          print(channels)
+          nclust = 15
+     } else if (fs == 'df_flowsom_TcellBcell'){
+          channels = lymphocyte_markers
+          print(channels)
+          nclust = 40
+     }
+     fs.df = df_flowsom_inputs[[fs]]
+     fs.input= fs.df %>% ungroup()%>% dplyr::select(all_of(channels))  %>% as.matrix()
+     fs.res <- FlowSOM(fs.input ,
+                       # Input options:
+                       compensate = FALSE,
+                       transform = FALSE,
+                       scale = FALSE,
+                       nClus = nclust,
+                       xdim = 10, ydim = 10,
+     )
+     fs.res_clusters <- GetMetaclusters(fs.res)
+     fs_flowsom = fs.df %>%
+          mutate(flowsom = fs.res_clusters)
+     return(fs_flowsom)
+})
+names(fs.results) =c('df_flowsom_monocyte_NK','df_flowsom_TcellBcell')
+
+```
+
+```{r}
+#################################
+## variance partition analysis ##
+#################################
+# library(variancePartition)
+# library(BiocParallel)
+## in the manuscript, we provided all celltypes regardless of how terminally defined they were.
+## in this example, we provide only the terminally defined populations as template code for the approach, the results are the same.
+varPart_data = data.input_prop_filt 
+
+form_fixed <- ~  Graft_Health + Graft ## model as fixed effects
+form_random <- ~  (1|Graft_Health) + (1|Graft) ## model as random effects if categorical
+formula_options = list(fixed = form_fixed, random = form_random)
+varpart_res =lapply(formula_options, function(form){
+     varPart <- fitExtractVarPartModel(varPart_data %>% ungroup() %>% dplyr::select(-Graft,-Graft_Health, -sample) %>% t(), 
+                                       formula = form,
+                                       varPart_data %>% ungroup() %>% dplyr::select(Graft,Graft_Health) , 
+                                       quiet = FALSE)
+     varPart_input = varPart_data %>% ungroup() %>% dplyr::select(-Graft,-Graft_Health) %>% t()
+     info = varPart_data %>%ungroup%>% dplyr::select(Graft,Graft_Health)
+     
+     vp.res = data.frame(varPart, check.names = TRUE) %>% mutate(feature = rownames(.))
+     vp.res.gath = vp.res %>% gather(key = "meta", value = "variance_explained", -feature) %>%
+          mutate(meta = factor(meta, levels = c("Graft", "Graft_Health","Residuals")))
+     return(list(vp.res=vp.res, vp.res.gath=vp.res.gath))
+})
+
+# ## example, fixed
+# ggplot(varpart_res$fixed$vp.res.gath,
+#                            aes(x = meta, y = variance_explained)) +
+#      geom_boxplot() +
+#      # xlab("") +
+#      ylab("proportion of variance\nexplained by clinical feature") +
+#   geom_jitter(size = 1.5)
+# 
+# ggplot(varpart_res$fixed$vp.res  , aes(x = Graft_Health, Graft)) +
+#   # theme(panel.background = element_blank()) +
+#   geom_point( size = 4, shape = 21, stroke = 1, color = 'black') +
+#   xlab('% variance associated\nwith graft health') +
+#   ylab('% variance associated\nwith graft') +
+#   geom_text(aes(label = feature))
+```
+
+
+```{r}
+## example, random
+ggplot(varpart_res$random$vp.res.gath,
+       aes(x = meta, y = variance_explained)) +
+     geom_boxplot() +
+     # xlab("") +
+     ylab("proportion of variance\nexplained by clinical feature") +
+     geom_jitter(size = 1.5)
+```
+
+
+```{r}
+ggplot(varpart_res$fixed$vp.res  , aes(x = Graft_Health, Graft)) +
+     # theme(panel.background = element_blank()) +
+     geom_point( size = 4, shape = 21, stroke = 1, color = 'black') +
+     xlab('% variance associated\nwith graft health') +
+     ylab('% variance associated\nwith graft') +
+     geom_text(aes(label = feature))
+```
+
+
+```{r}
+ggplot(varpart_res$random$vp.res  , aes(x = Graft_Health, Graft)) +
+     # theme(panel.background = element_blank()) +
+     geom_point( size = 4, shape = 21, stroke = 1, color = 'black') +
+     xlab('% variance associated\nwith graft health') +
+     ylab('% variance associated\nwith graft') +
+     geom_text(aes(label = feature))
+```
+
+```{r}
+##############################
+## cosine distance analysis ## ## using subsetted, example dataset 
+############################## EXAMPLE CODE ONLY
+# library(lsa)
+# ## begin code, sample down to 250 cells so the code runs quicker
+## not an accurate representation of the celltype proportions, sampling is done within lineages
+features = c('CCR4','CCR6','CCR7','CD11b','CD11c','CD25','CD27','CD28','CD38','CD45RA','CD45RO','CD5','CD57','CD69','FoxP3','GzmB','NKG2A','NKG2D','PD1','TCRgd')
+CD4_cells =  df %>%
+     dplyr::filter(celltype %in% c('CD4 CM','CD4 effector','CD45RA+ Tregs','CD8 CM','CD45RA- Tregs','CD:45RA-25+5+38-','CD4 naive')) %>%
+     mutate(sample = as.character(sample)) %>%
+     dplyr::select(all_of(features ), celltype, sample,cell.id)%>% ungroup()
+
+CD4_cells_sampleSplits = split(CD4_cells, CD4_cells$sample)
+
+
+message('calculating cosine similarity...')
+CosineSimilarityOfEachSample = calculateCosineSimilarityOfEachSample(CD4_cells_sampleSplits)
+cosine_results =CosineSimilarityOfEachSample %>% bind_rows()
+
+## plot results
+ggplot(cosine_results %>% dplyr::filter(celltype2 == 'CD:45RA-25+5+38-'),
+       aes(x = reorder(celltype, cosine), y = cosine)) +
+     geom_boxplot(outlier.size = 0.5) +
+     # ggpubr::stat_compare_means(comparisons = ) +
+     ylab('phenotypic similarity') +
+     # theme(axis.text.x = element_text(angle = 90) +
+     facet_wrap(~celltype2, scales = 'free_y')
+```
+
+
+```{r}
+############################
+## example code for umap ##
+############################
+## using sampled data for fast results
+umap.results = umap_function(CD4_cells, features = features)
+ggplot(umap.results, aes(x = UMAP1, y  =UMAP2, color = celltype)) +
+     geom_point(size = 1)
+```
+
+
+
+
+
+
+
+
+
+
