@@ -1,59 +1,59 @@
-"sample"	"V1"	"Run"	"Vial"	"Graft"	"Graft_Health"	"Patient ID"	"Date of Collection"	"Date of Transplant"	"Date of Birth"	"Date of Closest Rejection"	"Days Between Collection and Closest Rejection"	"Number of Rejection Episodes"	"Days Post Transplant"	"Age at Collection (years)"
-"01"	"01.fcs"	173	"149-173"	"None"	"Anchor"	149	"8/27/20"	NA	"1/1/80"	NA	NA	NA	NA	40.68
-"02"	"02.fcs"	173	"118383-03"	"Heart"	"Rejection"	11024	"10/24/16"	"9/13/15"	"5/8/15"	"10/24/16"	0	1	407	1.47
-"03"	"03.fcs"	173	"115973-03"	"Heart"	"Stable"	11025	"10/27/16"	"5/11/14"	"11/14/13"	NA	NA	0	900	2.95
-"04"	"04.fcs"	173	"201158-03"	"Heart"	"Stable"	12008	"8/23/16"	"11/8/11"	"6/26/09"	NA	NA	0	1750	7.16
-"05"	"05.fcs"	173	"222593-07"	"Intestine"	"Stable"	12035	"11/1/17"	"6/29/12"	"2/21/10"	NA	NA	0	1951	7.7
-"06"	"06.fcs"	173	"218727-07"	"Heart"	"Stable"	12052	"8/1/17"	"2/25/15"	"2/3/15"	NA	NA	0	888	2.49
-"07"	"07.fcs"	173	"115132-03"	"Heart"	"Stable"	17010	"3/29/16"	"2/14/13"	"11/10/09"	NA	NA	0	1139	6.39
-"08"	"08.fcs"	173	"225173-03"	"Heart"	"Rejection"	17016	"6/25/18"	"9/25/13"	"7/10/98"	"6/25/18"	0	1	1734	19.97
-"09"	"09.fcs"	173	"115139-08"	"Heart"	"Indeterminant"	17020	"3/21/16"	"4/26/15"	"7/17/97"	"2/22/16"	-28	1	330	18.69
-"10"	"10.fcs"	173	"203301-03"	"Intestine"	"Rejection"	17032	"9/20/16"	"9/20/16"	"1/15/04"	"10/8/16"	18	1	0	12.69
-"11"	"11.fcs"	173	"216044-07"	"Heart"	"Rejection"	17058	"6/19/17"	"2/7/17"	"6/6/07"	"6/19/17"	0	1	132	10.04
-"12"	"12.fcs"	173	"1139168-03"	"Heart"	"Rejection"	300029	"1/7/15"	"11/8/12"	"2/5/98"	"1/7/15"	0	1	790	16.93
-"13"	"13.fcs"	173	"112056-07"	"Heart"	"Stable"	300034	"12/2/15"	"12/5/12"	"12/19/11"	NA	NA	0	1092	3.96
-"14"	"14.fcs"	173	"207033-03"	"Heart"	"Stable"	300105	"2/6/17"	"11/21/15"	"8/6/98"	NA	NA	0	443	18.52
-"15"	"15.fcs"	173	"118108-07"	"Heart"	"Rejection"	300110	"11/10/16"	"12/17/15"	"7/10/05"	"11/10/16"	0	1	329	11.35
-"16"	"16.fcs"	173	"NOBARCODE"	"Heart"	"Rejection"	300290	"2/21/18"	"1/21/18"	"1/3/12"	"2/21/18"	0	2	31	6.14
-"17"	"17.fcs"	173	"227653-03"	"Heart"	"Rejection"	300295	"5/30/18"	"4/1/18"	"12/15/09"	"5/30/18"	0	3	59	8.46
-"18"	"18.fcs"	173	"1721-173"	"None"	"Control"	1721	"8/13/19"	NA	"1/1/80"	NA	NA	NA	NA	39.64
-"19"	"19.fcs"	176	"149-176"	"None"	"Anchor"	149	"8/27/20"	NA	"1/1/80"	NA	NA	NA	NA	40.68
-"20"	"20.fcs"	176	"206863-07"	"Liver"	"Stable"	8002	"8/4/16"	"1/3/15"	"5/17/08"	NA	NA	0	579	8.22
-"21"	"21.fcs"	176	"206851-07"	"Liver"	"Stable"	8035	"8/15/16"	"11/3/13"	"5/17/99"	NA	NA	0	1016	17.26
-"22"	"22.fcs"	176	"215789-08"	"Liver"	"Stable"	8045	"9/1/17"	"12/15/15"	"6/16/15"	NA	NA	0	626	2.21
-"23"	"23.fcs"	176	"210544-03"	"Liver"	"Rejection"	8079	"2/15/17"	"2/15/17"	"4/5/07"	"3/6/17"	19	1	0	9.87
-"24"	"24.fcs"	176	"215814-07"	"Liver"	"Rejection"	8095	"7/27/17"	"5/23/17"	"12/31/14"	"7/27/17"	0	1	65	2.57
-"25"	"25.fcs"	176	"221331-07"	"Liver"	"Stable"	11003	"12/12/17"	"8/25/13"	"8/11/09"	NA	NA	0	1570	8.34
-"26"	"26.fcs"	176	"118348-07"	"Liver"	"Stable"	11019	"10/3/16"	"4/27/15"	"8/1/07"	NA	NA	0	525	9.18
-"27"	"27.fcs"	176	"116001-07"	"Liver"	"Stable"	11035	"1/24/17"	"8/7/15"	"4/14/13"	NA	NA	0	536	3.78
-"28"	"28.fcs"	176	"201140-03"	"Liver"	"Indeterminant"	12036	"7/7/16"	"5/4/16"	"8/20/97"	"7/22/16"	15	4	64	18.89
-"29"	"29.fcs"	176	"222619-07"	"Liver"	"Stable"	12062	"11/16/17"	"6/29/16"	"5/29/09"	NA	NA	0	505	8.47
-"30"	"30.fcs"	176	"116287-07"	"Liver"	"Stable"	14003	"3/28/17"	"9/21/12"	"4/6/12"	NA	NA	0	1649	4.98
-"31"	"31.fcs"	176	"116286-07"	"Liver"	"Rejection"	14005	"6/20/17"	"2/6/15"	"5/4/01"	"6/20/17"	0	1	865	16.14
-"32"	"32.fcs"	176	"221272-07"	"Liver"	"Stable"	14030	"1/3/18"	"9/15/16"	"12/16/04"	NA	NA	0	475	13.06
-"33"	"33.fcs"	176	"113730-07"	"Liver"	"Stable"	15009	"2/8/16"	"6/25/13"	"12/7/11"	NA	NA	0	958	4.18
-"34"	"34.fcs"	176	"117004-07"	"Liver"	"Rejection"	300056	"7/17/17"	"4/22/13"	"4/4/11"	"7/21/17"	4	1	1547	6.29
-"35"	"35.fcs"	176	"205937-03"	"Liver"	"Rejection"	300073	"8/3/16"	"7/12/15"	"5/20/08"	"8/27/16"	24	3	388	8.21
-"36"	"36.fcs"	176	"117088-07"	"Liver"	"Rejection"	300115	"1/25/16"	"1/25/16"	"2/26/13"	"2/22/16"	28	2	0	2.91
-"37"	"37.fcs"	176	"218319-08"	"Liver"	"Rejection"	300208	"3/1/18"	"1/25/17"	"1/9/15"	"3/2/18"	1	3	400	3.14
-"38"	"38.fcs"	176	"1721-176"	"None"	"Control"	1721	"8/13/19"	NA	"1/1/80"	NA	NA	NA	NA	39.64
-"39"	"39.fcs"	177	"149-177"	"None"	"Anchor"	149	"8/27/20"	NA	"1/1/80"	NA	NA	NA	NA	40.68
-"40"	"40.fcs"	177	"206893-03"	"Liver"	"Stable"	8008	"12/1/16"	"2/14/15"	"3/16/14"	NA	NA	0	656	2.72
-"41"	"41.fcs"	177	"221760-03"	"Liver"	"Stable"	8024	"2/1/18"	"12/1/16"	"11/17/00"	NA	NA	0	427	17.22
-"42"	"42.fcs"	177	"221738-08"	"Kidney"	"Stable"	8051	"11/8/17"	"4/27/15"	"10/8/13"	NA	NA	0	926	4.09
-"43"	"43.fcs"	177	"201572-03"	"Kidney"	"Rejection"	8058	"11/2/16"	"4/23/14"	"6/22/10"	"11/8/16"	6	3	924	6.37
-"44"	"44.fcs"	177	"215741-03"	"Kidney"	"Rejection"	8074	"8/9/17"	"10/15/14"	"2/1/01"	"8/10/17"	1	1	1029	16.53
-"45"	"45.fcs"	177	"216799-03"	"Kidney"	"Stable"	11057	"1/29/18"	"4/7/16"	"10/13/08"	NA	NA	0	662	9.3
-"46"	"46.fcs"	177	"216766-07"	"Kidney"	"Rejection"	11096	"10/10/17"	"1/21/17"	"7/2/13"	"10/26/17"	16	1	262	4.28
-"47"	"47.fcs"	177	"221182-07"	"Kidney"	"Stable"	14025	"10/3/17"	"11/9/15"	"9/5/97"	NA	NA	0	694	20.09
-"48"	"48.fcs"	177	"116156-07"	"Kidney"	"Rejection"	14037	"7/6/18"	"9/19/16"	"6/21/11"	"7/6/18"	0	1	655	7.05
-"49"	"49.fcs"	177	"117030-08"	"Kidney"	"Stable"	300196	"12/18/17"	"10/15/16"	"4/14/98"	NA	NA	0	429	19.69
-"50"	"50.fcs"	177	"118050-03"	"Kidney"	"Rejection"	300267	"4/10/18"	"8/9/17"	"12/28/13"	"5/8/18"	28	1	244	4.28
-"51"	"51.fcs"	177	"118033-03"	"Kidney"	"Rejection"	300289	"7/5/18"	"1/21/18"	"3/18/99"	"7/5/18"	0	1	165	19.31
-"52"	"52.fcs"	177	"229936-03"	"Kidney"	"Rejection"	300299	"9/20/18"	"3/17/18"	"4/25/14"	"9/20/18"	0	1	187	4.41
-"53"	"53.fcs"	177	"215275-03"	"Liver"	"Rejection"	300310	"2/28/19"	"6/29/18"	"11/7/17"	"3/11/19"	11	2	244	1.31
-"54"	"54.fcs"	177	"218163-03"	"Heart"	"Rejection"	300128	"2/11/19"	"4/5/17"	"10/1/08"	"2/11/19"	0	2	677	10.37
-"55"	"55.fcs"	177	"229930-03"	"Heart"	"Stable"	300203	"11/21/18"	"1/6/17"	"5/17/98"	NA	NA	0	684	20.53
-"56"	"56.fcs"	177	"225749-07"	"Heart"	"Rejection"	300175	"6/14/18"	"5/25/17"	"9/7/01"	"6/14/18"	0	1	385	16.78
-"57"	"57.fcs"	177	"225710-07"	"Heart"	"Rejection"	300176	"5/9/18"	"8/22/16"	"5/19/05"	"5/9/18"	0	3	625	12.98
-"58"	"58.fcs"	177	"1721-177"	"None"	"Control"	1721	"8/13/19"	NA	"1/1/80"	NA	NA	NA	NA	39.64
+sample	V1	Run	Graft	Graft_Health	Days Between Collection and Closest Rejection	Number of Rejection Episodes	Days Post Transplant	Age at Collection (years)
+1	01.fcs	173	None	Anchor	NA	NA	NA	40.68
+2	02.fcs	173	Heart	Rejection	0	1	407	1.47
+3	03.fcs	173	Heart	Stable	NA	0	900	2.95
+4	04.fcs	173	Heart	Stable	NA	0	1750	7.16
+5	05.fcs	173	Intestine	Stable	NA	0	1951	7.7
+6	06.fcs	173	Heart	Stable	NA	0	888	2.49
+7	07.fcs	173	Heart	Stable	NA	0	1139	6.39
+8	08.fcs	173	Heart	Rejection	0	1	1734	19.97
+9	09.fcs	173	Heart	Indeterminant	-28	1	330	18.69
+10	10.fcs	173	Intestine	Rejection	18	1	0	12.69
+11	11.fcs	173	Heart	Rejection	0	1	132	10.04
+12	12.fcs	173	Heart	Rejection	0	1	790	16.93
+13	13.fcs	173	Heart	Stable	NA	0	1092	3.96
+14	14.fcs	173	Heart	Stable	NA	0	443	18.52
+15	15.fcs	173	Heart	Rejection	0	1	329	11.35
+16	16.fcs	173	Heart	Rejection	0	2	31	6.14
+17	17.fcs	173	Heart	Rejection	0	3	59	8.46
+18	18.fcs	173	None	Control	NA	NA	NA	39.64
+19	19.fcs	176	None	Anchor	NA	NA	NA	40.68
+20	20.fcs	176	Liver	Stable	NA	0	579	8.22
+21	21.fcs	176	Liver	Stable	NA	0	1016	17.26
+22	22.fcs	176	Liver	Stable	NA	0	626	2.21
+23	23.fcs	176	Liver	Rejection	19	1	0	9.87
+24	24.fcs	176	Liver	Rejection	0	1	65	2.57
+25	25.fcs	176	Liver	Stable	NA	0	1570	8.34
+26	26.fcs	176	Liver	Stable	NA	0	525	9.18
+27	27.fcs	176	Liver	Stable	NA	0	536	3.78
+28	28.fcs	176	Liver	Indeterminant	15	4	64	18.89
+29	29.fcs	176	Liver	Stable	NA	0	505	8.47
+30	30.fcs	176	Liver	Stable	NA	0	1649	4.98
+31	31.fcs	176	Liver	Rejection	0	1	865	16.14
+32	32.fcs	176	Liver	Stable	NA	0	475	13.06
+33	33.fcs	176	Liver	Stable	NA	0	958	4.18
+34	34.fcs	176	Liver	Rejection	4	1	1547	6.29
+35	35.fcs	176	Liver	Rejection	24	3	388	8.21
+36	36.fcs	176	Liver	Rejection	28	2	0	2.91
+37	37.fcs	176	Liver	Rejection	1	3	400	3.14
+38	38.fcs	176	None	Control	NA	NA	NA	39.64
+39	39.fcs	177	None	Anchor	NA	NA	NA	40.68
+40	40.fcs	177	Liver	Stable	NA	0	656	2.72
+41	41.fcs	177	Liver	Stable	NA	0	427	17.22
+42	42.fcs	177	Kidney	Stable	NA	0	926	4.09
+43	43.fcs	177	Kidney	Rejection	6	3	924	6.37
+44	44.fcs	177	Kidney	Rejection	1	1	1029	16.53
+45	45.fcs	177	Kidney	Stable	NA	0	662	9.3
+46	46.fcs	177	Kidney	Rejection	16	1	262	4.28
+47	47.fcs	177	Kidney	Stable	NA	0	694	20.09
+48	48.fcs	177	Kidney	Rejection	0	1	655	7.05
+49	49.fcs	177	Kidney	Stable	NA	0	429	19.69
+50	50.fcs	177	Kidney	Rejection	28	1	244	4.28
+51	51.fcs	177	Kidney	Rejection	0	1	165	19.31
+52	52.fcs	177	Kidney	Rejection	0	1	187	4.41
+53	53.fcs	177	Liver	Rejection	11	2	244	1.31
+54	54.fcs	177	Heart	Rejection	0	2	677	10.37
+55	55.fcs	177	Heart	Stable	NA	0	684	20.53
+56	56.fcs	177	Heart	Rejection	0	1	385	16.78
+57	57.fcs	177	Heart	Rejection	0	3	625	12.98
+58	58.fcs	177	None	Control	NA	NA	NA	39.64
